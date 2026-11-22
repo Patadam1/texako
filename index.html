@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="dark">
+<title>Texako Gastro Bar</title>
+<meta name="description" content="Texako, gastro bar en Pedro Muñoz: cañas, vinos, tapas y combinados con DJ. Viernes y sábado de 16:00 a 4:00, domingo de 16:00 a 21:30. Av. de la Constitución 25.">
+<meta name="theme-color" content="#07060b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;800&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{
+  --day:#f5f5f2; --day-2:#e9e9e4; --sky:#cbe4f2; --sand:#f1e3b5; --sun:#ffc013;
+  --night:#0a0a0a; --night-2:#1a1a1a; --neon:#b0298f; --neon-ink:#fff;
+  --bg:var(--day); --ink:#0a0a0a; --muted:#3d4a52;
+  --ease-out:cubic-bezier(0.23,1,0.32,1); --ease-io:cubic-bezier(0.77,0,0.175,1);
+  --m:clamp(16px,3vw,40px);
+  --step-small:clamp(0.8125rem,0.79rem + 0.1vw,0.875rem);
+  --step-body:clamp(1.0625rem,1rem + 0.25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + 0.7vw,1.625rem);
+  --step-head:clamp(2.25rem,1.3rem + 3.6vw,4.5rem);
+  --step-giant:clamp(3rem,1rem + 6.6vw,7.5rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scrollbar-color:var(--ink) var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Albert Sans",system-ui,sans-serif;font-size:var(--step-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+::selection{background:var(--sun);color:#0a0a0a}
+img{display:block;max-width:100%}
+a{color:inherit;text-underline-offset:.2em}
+h1,h2,h3{font-weight:600;letter-spacing:-0.035em;line-height:1;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:3px solid var(--neon);outline-offset:3px;border-radius:999px}
+.wrap{padding-inline:var(--m)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- buttons: one shape, the pill made of the seal's circle ---------- */
+.btn{display:inline-flex;align-items:center;gap:.6em;min-height:52px;padding:0 1.6em;border-radius:999px;border:0;font:600 var(--step-body)/1 "Albert Sans",sans-serif;text-decoration:none;cursor:pointer;background:var(--ink);color:var(--bg);transition:transform 160ms var(--ease-out),background-color 200ms ease;position:relative;overflow:hidden;isolation:isolate}
+.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--sun);transform:scale(0);transform-origin:var(--x,50%) var(--y,50%);transition:transform 420ms var(--ease-out);z-index:-1}
+.btn:active{transform:scale(.97)}
+.btn--ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn svg{width:1.1em;height:1.1em;transition:transform 300ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{color:#0a0a0a}
+  .btn:hover::before{transform:scale(2.4)}
+  .btn:hover svg{transform:translateX(4px)}
+}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px var(--m);pointer-events:none;color:var(--nav-ink,#0a0a0a);transition:color 250ms ease}
+.nav.is-dark{--nav-ink:#f2f2f2}
+.nav > *{pointer-events:auto}
+.nav__brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;text-decoration:none;font-size:1.125rem}
+.nav__seal{width:38px;height:38px;border-radius:50%;box-shadow:0 0 0 2px currentColor}
+.nav__links{display:flex;gap:clamp(14px,2.4vw,32px);font-weight:500}
+.nav__links a{text-decoration:none;position:relative}
+.nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform 300ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.nav__links a:hover::after{transform:scaleX(1);transform-origin:left}}
+@media (max-width:720px){.nav__links a[href="#ahora"],.nav__links a[href="#noches"],.nav__links a[href="#sommar"]{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:var(--m);padding:96px var(--m) 48px;overflow:clip}
+.hero__card{position:relative;z-index:2;display:flex;flex-direction:column;gap:28px;max-width:620px}
+.road{height:44px;background:#0a0a0a;border-radius:999px;overflow:hidden;position:relative;display:flex;align-items:center}
+.road__dashes{display:flex;gap:28px;padding-left:28px;will-change:transform;animation:drive 2.4s linear infinite}
+.road__dashes span{flex:0 0 44px;height:6px;background:#f5f5f2;border-radius:3px}
+.road__sign{position:absolute;right:6px;top:6px;bottom:6px;padding:0 14px;display:flex;align-items:center;border-radius:999px;background:var(--sun);color:#0a0a0a;font-weight:800;font-size:var(--step-small);letter-spacing:.01em}
+@keyframes drive{to{transform:translateX(-72px)}}
+.hero__logo{width:clamp(120px,14vw,190px);height:auto;flex:none}
+.hero h1{font-size:var(--step-giant);line-height:.95;letter-spacing:-0.045em}
+.hero h1 .w{display:inline-block;overflow:clip;vertical-align:top;padding-bottom:.06em}
+.hero h1 .w > span{display:inline-block}
+.hero__lead{font-size:var(--step-lead);line-height:1.4;max-width:34ch;margin-top:-4px}
+.hero__actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero__meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:var(--step-small);font-weight:500;color:var(--muted)}
+.hero__meta strong{color:var(--ink);font-weight:600}
+.hero__disc{position:absolute;z-index:1;right:calc(-1 * clamp(140px,16vw,300px));top:50%;width:min(118vh,62vw);aspect-ratio:1;translate:0 -50%;border-radius:50%;overflow:hidden;background:#0a0a0a}
+.hero__disc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;opacity:0;transition:opacity 1.6s ease}
+.hero__disc img.is-on{opacity:1}
+.hero__disc .kb{animation:kenburns 14s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-2%,1%)}}
+.hero__badge{position:absolute;z-index:3;left:calc(50% + 8px);bottom:8vh;width:clamp(110px,10vw,150px);aspect-ratio:1;border-radius:50%;background:var(--sun);color:#0a0a0a;display:grid;place-items:center;text-align:center;font-weight:800;line-height:1.05;font-size:var(--step-small)}
+.hero__badge svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 18s linear infinite}
+.hero__badge b{font-size:1.9em;display:block;letter-spacing:-.04em}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr);padding-top:84px;align-items:start}
+  .hero__disc{position:relative;right:auto;top:auto;translate:none;width:86vw;margin:0 calc(-1 * var(--m) - 8vw) -2vw 0;order:-1;justify-self:end}
+  .hero__logo{display:none}
+  .road__sign{display:none}
+  .road{height:28px}
+  .hero__badge{left:var(--m);right:auto;bottom:auto;top:calc(84px + 50vw);width:100px}
+  .hero__card{gap:22px}
+}
+
+/* ---------- statement ---------- */
+.statement{padding:clamp(120px,18vh,220px) var(--m);display:grid;place-items:center}
+.statement p{max-width:30ch;font-size:clamp(1.5rem,0.9rem + 2.2vw,2.25rem);line-height:1.22;font-weight:500;letter-spacing:-.02em;text-align:center}
+.thumb{display:inline-block;width:1.15em;height:1.15em;border-radius:50%;overflow:hidden;vertical-align:-.2em;margin:0 .12em;background:var(--day-2)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){.statement p{text-align:left;font-size:1.5rem}}
+
+/* ---------- live dial ---------- */
+.now{position:relative;min-height:100svh;padding:clamp(100px,14vh,180px) var(--m);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--m);align-items:center;background:var(--sky);transition:background-color 700ms var(--ease-io)}
+.now[data-moment="tarde"]{background:var(--sand)}
+.now[data-moment="noche"]{background:#141414;color:#f2f2f2;--ink:#f2f2f2;--muted:#b9b9b9}
+.now__text{display:flex;flex-direction:column;gap:26px}
+.now h2{font-size:var(--step-head)}
+.now__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.now__list button{all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;font-size:clamp(1.75rem,1rem + 2.4vw,2.75rem);font-weight:600;letter-spacing:-.03em;line-height:1.15;color:var(--muted);transition:color 200ms ease,transform 300ms var(--ease-out)}
+.now__list button::before{content:"";width:.42em;height:.42em;border-radius:50%;background:currentColor;transform:scale(.4);transition:transform 300ms var(--ease-out),background-color 200ms ease}
+.now__list button[aria-pressed="true"]{color:var(--ink)}
+.now__list button[aria-pressed="true"]::before{transform:scale(1);background:var(--neon)}
+@media (hover:hover) and (pointer:fine){.now__list button:hover{color:var(--ink);transform:translateX(6px)}}
+.now__fact{font-size:var(--step-body);max-width:36ch;min-height:4.5em}
+.now__fact strong{font-weight:600}
+.dial{display:flex;flex-direction:column;gap:10px;max-width:420px}
+.dial label{font-weight:600;display:flex;justify-content:space-between}
+.dial output{font-variant-numeric:tabular-nums}
+.dial input{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:pointer}
+.dial input::-webkit-slider-runnable-track{height:10px;border-radius:999px;background:var(--ink)}
+.dial input::-moz-range-track{height:10px;border-radius:999px;background:var(--ink)}
+.dial input::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-12px;border-radius:50%;background:var(--sun);border:4px solid var(--ink);transition:transform 160ms var(--ease-out)}
+.dial input::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--sun);border:4px solid var(--ink)}
+.dial input:active::-webkit-slider-thumb{transform:scale(1.15)}
+.stage{position:relative;aspect-ratio:1;width:min(100%,72vh);justify-self:center}
+.stage__disc{position:absolute;inset:6%;border-radius:50%;background:var(--sun);transition:background-color 700ms var(--ease-io)}
+.now[data-moment="tarde"] .stage__disc{background:#ff8a1f}
+.now[data-moment="noche"] .stage__disc{background:var(--neon)}
+.stage__photo{position:absolute;inset:16%;border-radius:50%;overflow:hidden;background:#0a0a0a}
+.stage__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:circle(0% at 50% 50%)}
+.stage__photo img.is-on{clip-path:circle(75% at 50% 50%);transition:clip-path 900ms var(--ease-out)}
+.stage__orbit{position:absolute;inset:0;will-change:transform}
+.stage__orb{position:absolute;left:50%;top:0;width:13%;aspect-ratio:1;translate:-50% 0;border-radius:50%;background:#0a0a0a;display:grid;place-items:center}
+.stage__orb svg{width:62%;height:62%}
+.stage__ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 40s linear infinite}
+.stage__ring text{font:600 14px "Albert Sans",sans-serif;letter-spacing:.06em;fill:currentColor}
+@media (max-width:860px){.now{grid-template-columns:minmax(0,1fr)}.stage{order:-1;width:86vw}}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--ink);color:var(--bg);overflow:hidden;padding:18px 0}
+.marquee__track{display:flex;width:max-content;will-change:transform}
+.marquee__item{display:flex;align-items:center;gap:28px;padding-right:28px;font-size:clamp(1.75rem,1rem + 3vw,3.5rem);font-weight:800;letter-spacing:-.03em;white-space:nowrap}
+.marquee__dot{width:.5em;height:.5em;border-radius:50%;background:var(--sun);flex:none}
+.marquee__dot--n{background:var(--neon)}
+
+/* ---------- menu ---------- */
+.carta{padding:clamp(120px,16vh,200px) var(--m)}
+.carta__head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.carta__head h2{font-size:var(--step-giant);letter-spacing:-.045em}
+.carta__head p{max-width:34ch}
+.tabs{position:sticky;top:64px;z-index:5;display:flex;gap:8px;flex-wrap:wrap;padding:10px 0;margin-bottom:24px}
+.tabs a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--day-2);text-decoration:none;font-weight:600;transition:background-color 200ms ease,transform 160ms var(--ease-out)}
+.tabs a:active{transform:scale(.96)}
+@media (hover:hover) and (pointer:fine){.tabs a:hover{background:var(--sun)}}
+.cat{padding-top:72px}
+.cat__title{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:36px}
+.cat__title h3{font-size:clamp(2rem,1.2rem + 2.6vw,3.25rem);letter-spacing:-.04em}
+.cat__title span{font-weight:500;color:var(--muted)}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 64px;list-style:none;margin:0;padding:0}
+.item{display:grid;grid-template-columns:72px 1fr;gap:20px;align-items:start}
+.item__pic{width:72px;height:72px;border-radius:50%;overflow:hidden;background:var(--day-2)}
+.item__pic img{width:100%;height:100%;object-fit:cover;transition:transform 500ms var(--ease-out)}
+.item__row{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:1.125rem}
+.item__row span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:500}
+.item p{color:var(--muted);font-size:1rem;max-width:40ch;margin-top:4px}
+@media (hover:hover) and (pointer:fine){.item:hover .item__pic img{transform:scale(1.15) rotate(6deg)}}
+@media (max-width:760px){.items{grid-template-columns:1fr}.item{grid-template-columns:56px 1fr}.item__pic{width:56px;height:56px}}
+
+/* ---------- night ---------- */
+.night{background:var(--night);color:#f2f2f2;--ink:#f2f2f2;--muted:#b9b9b9;padding:clamp(120px,16vh,200px) 8px 8px}
+.night__head{padding:0 calc(var(--m) - 8px) 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--m);align-items:end}
+.night__head h2{font-size:var(--step-giant);letter-spacing:-.045em}
+.night__head p{font-size:var(--step-lead);line-height:1.4;max-width:36ch}
+
+/* night line-up: names as neon tubes that switch on as you scroll */
+.lineup{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,80px);padding:0 calc(var(--m) - 8px);align-items:start}
+.lineup__pics{position:sticky;top:96px;margin:0;aspect-ratio:1;max-width:560px}
+.lineup__big{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:50%;box-shadow:0 0 0 3px var(--neon),0 0 36px rgba(255,43,214,.5)}
+.lineup__small{position:absolute;right:-4%;bottom:-2%;width:42%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:50%;box-shadow:0 0 0 3px var(--cyan),0 0 26px rgba(34,228,255,.5)}
+.lineup__pics figcaption{position:absolute;right:0;bottom:-38px;font-size:var(--step-small);font-weight:600;color:var(--muted)}
+.lineup__intro{font-size:var(--step-lead);font-weight:600;color:var(--muted);margin-bottom:12px}
+.lineup__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(10px,1.6vw,22px)}
+.sign{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.sign__name{font-weight:800;font-size:clamp(2rem,1rem + 3.4vw,4.5rem);letter-spacing:-.04em;line-height:1.05;color:#fff;transition:color 300ms ease,text-shadow 300ms ease}
+.sign__kind{flex:none;font-size:var(--step-small);font-weight:600;color:var(--muted)}
+.sign[data-c="pink"] .sign__name{text-shadow:0 0 4px rgba(255,43,214,.9),0 0 20px rgba(255,43,214,.55)}
+.sign[data-c="cyan"] .sign__name{text-shadow:0 0 4px rgba(34,228,255,.9),0 0 20px rgba(34,228,255,.5)}
+.sign[data-c="sun"]  .sign__name{text-shadow:0 0 4px rgba(255,192,19,.9),0 0 20px rgba(255,192,19,.5)}
+.lineup.js .sign:not(.is-on) .sign__name{color:#7a7290;text-shadow:none}
+.lineup.js .sign.is-on .sign__name{animation:tube-on 700ms linear both}
+@keyframes tube-on{0%{opacity:.35}12%{opacity:1}18%{opacity:.4}30%{opacity:1}36%{opacity:.7}100%{opacity:1}}
+.lineup__more{margin-top:clamp(32px,4vw,56px);font-size:var(--step-body);max-width:52ch;color:var(--ink)}
+@media (max-width:860px){
+  .night__head{grid-template-columns:minmax(0,1fr);gap:20px}
+  .lineup{grid-template-columns:minmax(0,1fr)}
+  .lineup__pics{position:relative;top:auto;width:78vw;margin:0 auto 56px}
+  .sign__name{font-size:clamp(1.75rem,8.4vw,2.5rem)}
+}
+
+/* open-now dial: status, day chips */
+.now__status{display:flex;align-items:center;gap:12px;font-size:var(--step-lead);font-weight:600;line-height:1.3}
+.now__status i{flex:none;width:14px;height:14px;border-radius:50%;background:#ff4d6d;box-shadow:0 0 8px #ff4d6d,0 0 20px rgba(255,77,109,.6)}
+.now__status.is-open i{background:#3dff9a;box-shadow:0 0 8px #3dff9a,0 0 20px rgba(61,255,154,.6);animation:pulse-dot 1.6s ease-in-out infinite}
+@keyframes pulse-dot{50%{opacity:.45}}
+.days{display:flex;flex-wrap:wrap;gap:8px}
+.days button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;font-weight:600;background:rgba(255,255,255,.08);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:background-color 200ms ease,color 200ms ease,transform 160ms var(--ease-out);touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.days button:active{transform:scale(.96)}
+.days button[aria-pressed="true"]{background:var(--sun);color:#0a0a0a;box-shadow:var(--glow-sun)}
+.days button:focus-visible{outline:3px solid var(--neon);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.days button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,.16)}}
+.now__list small{font-size:max(12px,.42em);font-weight:600;letter-spacing:0;color:var(--muted);margin-left:.4em;align-self:center}
+.now__list button[disabled]{cursor:not-allowed;opacity:.45}
+
+/* sommar: the summer club, warm sunset light */
+.sommar{padding:clamp(96px,14vh,180px) var(--m);position:relative;isolation:isolate;overflow:clip}
+.sommar::before{content:"";position:absolute;inset:0;z-index:-1;background:url("assets/ig/sommar-sala-m.webp") center 40%/cover no-repeat;opacity:.32;filter:saturate(1.3)}
+.sommar::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#07060b 0%,rgba(7,6,11,.55) 30%,rgba(7,6,11,.55) 70%,#07060b 100%)}
+.sommar__head{display:flex;flex-direction:column;gap:12px;margin-bottom:clamp(32px,4vw,56px)}
+.sommar__word{display:block;font-weight:400;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(3.5rem,1rem + 10vw,10rem);line-height:.9;color:#fff4e6;text-shadow:0 0 4px rgba(255,140,60,.95),0 0 22px rgba(255,90,60,.6)}
+.sommar__by{font-size:var(--step-lead);font-weight:600;color:#ffb37a}
+.sommar__grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,96px);align-items:start}
+.sommar__copy{display:flex;flex-direction:column;gap:28px}
+.sommar__lead{font-size:var(--step-lead);line-height:1.4;max-width:30ch}
+.btn.btn--sun{align-self:flex-start;background:#ff7a1a;color:#0a0a0a;box-shadow:0 0 6px rgba(255,122,26,.9),0 0 24px rgba(255,122,26,.45)}
+.btn.btn--sun::before{background:#fff4e6}
+.tickets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.ticket{--c:#ff7a1a;--cg:rgba(255,122,26,.45);position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(16px,2.4vw,32px);padding:clamp(16px,2vw,24px) clamp(20px,2.6vw,32px);border-radius:28px;background:rgba(10,8,16,.82);box-shadow:inset 0 0 0 2px var(--c),0 0 22px var(--cg);transition:transform 300ms var(--ease-out)}
+.ticket--cyan{--c:var(--cyan);--cg:rgba(34,228,255,.4)}
+.ticket--next{--c:rgba(255,255,255,.35);--cg:transparent}
+.ticket__date{display:flex;flex-direction:column;align-items:center;min-width:3.6em;padding-right:clamp(16px,2.4vw,32px);border-right:3px dotted var(--c);font-weight:700;font-size:var(--step-small);text-transform:uppercase;letter-spacing:.04em;color:var(--c)}
+.ticket__date b{font-size:clamp(2.25rem,1.5rem + 2vw,3.25rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:#fff;text-shadow:0 0 14px var(--cg)}
+.ticket__body{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ticket__body strong{font-size:clamp(1.25rem,1rem + 1vw,1.75rem);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.ticket__body span{color:var(--muted);font-size:var(--step-body)}
+.ticket__pic{width:clamp(64px,7vw,96px);height:auto;aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--c),0 0 16px var(--cg)}
+.ticket--next .ticket__date b{color:rgba(255,255,255,.75);text-shadow:none}
+@media (hover:hover) and (pointer:fine){.ticket:hover{transform:translateX(-8px) rotate(-.6deg)}}
+@media (max-width:860px){
+  .sommar{padding-top:96px}
+  .sommar__grid{grid-template-columns:minmax(0,1fr)}
+  .btn.btn--sun{align-self:stretch;justify-content:center}
+  .ticket{grid-template-columns:auto 1fr;border-radius:24px}
+  .ticket__pic{display:none}
+}
+/* ---------- visit / coupon ---------- */
+.visit{background:var(--night);color:#f2f2f2;padding:clamp(120px,16vh,200px) var(--m) 72px}
+.coupon{--notch:30px;position:relative;display:grid;grid-template-columns:46fr 54fr;background:var(--sun);color:#0a0a0a;border-radius:28px;max-width:1240px;margin:0 auto;
+  -webkit-mask:radial-gradient(circle var(--notch) at 46% 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle var(--notch) at 46% 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle var(--notch) at 46% 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle var(--notch) at 46% 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.coupon__left{padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:space-between;gap:28px;border-right:6px dotted var(--night)}
+.coupon h2{font-size:clamp(2.25rem,1.3rem + 2.6vw,3.5rem)}
+.coupon address{font-style:normal;font-size:var(--step-lead);line-height:1.35;font-weight:500}
+.coupon__map{border-radius:50%;overflow:hidden;width:min(260px,60%);aspect-ratio:1}
+.coupon__map img{width:100%;height:100%;object-fit:cover}
+.coupon form{padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;gap:10px}
+.coupon form p{font-weight:500;margin-bottom:8px}
+.field{display:block}
+.field input,.field select,.field textarea{width:100%;min-height:54px;border:0;border-radius:999px;background:#ffd75e;padding:0 22px;font:500 1rem "Albert Sans",sans-serif;color:#0a0a0a;transition:background-color 200ms ease,box-shadow 200ms ease}
+.field textarea{border-radius:24px;padding:16px 22px;min-height:96px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;background:#fff;box-shadow:0 0 0 3px #0a0a0a}
+.field ::placeholder{color:#5a4a10}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.coupon .btn{width:100%;justify-content:center;min-height:58px;background:#0a0a0a;color:#f5f5f2;margin-top:6px}
+.coupon .btn::before{background:var(--neon)}
+@media (hover:hover) and (pointer:fine){.coupon .btn:hover{color:#fff}}
+.form-note{font-size:var(--step-small);min-height:1.5em;font-weight:600}
+@media (max-width:860px){
+  .coupon{grid-template-columns:minmax(0,1fr);
+   -webkit-mask:radial-gradient(circle var(--notch) at 0 52%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 52%,#0000 98%,#000) right/51% 100% no-repeat;
+   mask:radial-gradient(circle var(--notch) at 0 52%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--notch) at 100% 52%,#0000 98%,#000) right/51% 100% no-repeat}
+  .coupon__left{border-right:0;border-bottom:6px dotted var(--night)}
+  .row2{grid-template-columns:1fr}
+}
+
+/* ---------- footer ---------- */
+.foot{background:var(--night);color:#f2f2f2;padding:40px var(--m) 32px}
+.mark{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;align-items:end;height:34svh;min-height:200px}
+.mark span{display:grid;place-items:center;height:100%;border-radius:999px;font-weight:800;font-size:clamp(3rem,1rem + 9vw,12rem);letter-spacing:-.04em;line-height:1;transform-origin:bottom}
+.mark span:nth-child(1){background:#f2f2f2;color:#0a0a0a;height:78%}
+.mark span:nth-child(2){background:var(--sun);color:#0a0a0a;height:100%}
+.mark span:nth-child(3){background:var(--neon);color:#fff;height:66%}
+.mark span:nth-child(4){background:#f2f2f2;color:#0a0a0a;height:90%}
+.mark span:nth-child(5){background:var(--night-2);color:#f2f2f2;height:72%}
+.mark span:nth-child(6){background:var(--sun);color:#0a0a0a;height:96%}
+.foot__cols{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;margin-top:56px;font-size:.9375rem}
+.foot__cols nav{grid-column:span 6;display:flex;flex-wrap:wrap;gap:10px 28px}
+.foot__cols nav a{text-decoration:none;font-weight:600}
+.foot__cols address{grid-column:span 6;font-style:normal;text-align:right}
+.foot__last{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;margin-top:40px;font-size:var(--step-small);color:#b9b9b9}
+.foot__last .btn{min-height:44px;background:#f2f2f2;color:#0a0a0a}
+.credits{margin-top:20px;font-size:var(--step-small);color:#c4c4c4;max-width:75ch}
+@media (max-width:760px){.mark{height:22svh;gap:3px}.foot__cols nav,.foot__cols address{grid-column:1/-1;text-align:left}}
+
+/* =========================================================
+   NEON NIGHT — the pub after dark: one dark ground, lit tubes
+   ========================================================= */
+:root{
+  --bg:#07060b; --ink:#f4f1f8; --muted:#bdb6c9; --day-2:#17141f;
+  --neon:#ff2bd6; --cyan:#22e4ff; --sun:#ffc013; --orange:#ff7a1a;
+  --night:#07060b; --night-2:#16131d;
+  --glow-pink:0 0 6px rgba(255,43,214,.9),0 0 24px rgba(255,43,214,.5);
+  --glow-cyan:0 0 6px rgba(34,228,255,.9),0 0 24px rgba(34,228,255,.45);
+  --glow-sun:0 0 6px rgba(255,192,19,.9),0 0 24px rgba(255,192,19,.45);
+}
+body{background:var(--bg)}
+::selection{background:var(--neon);color:#fff}
+
+/* moving lights behind everything */
+.lights{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+.lights i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;opacity:.42;will-change:transform;contain:strict}
+.lights i:nth-child(1){left:-18vmax;top:-20vmax;background:radial-gradient(closest-side,rgba(255,43,214,.85),rgba(255,43,214,0));animation:float1 22s ease-in-out infinite alternate}
+.lights i:nth-child(2){right:-22vmax;top:18vh;background:radial-gradient(closest-side,rgba(34,228,255,.7),rgba(34,228,255,0));animation:float2 26s ease-in-out infinite alternate}
+.lights i:nth-child(3){left:20vw;bottom:-30vmax;background:radial-gradient(closest-side,rgba(255,122,26,.6),rgba(255,122,26,0));animation:float3 30s ease-in-out infinite alternate}
+.lights i:nth-child(4){width:34vmax;height:34vmax;left:40vw;top:30vh;opacity:.3;background:radial-gradient(closest-side,rgba(255,43,214,.8),rgba(255,43,214,0));animation:float2 18s ease-in-out infinite alternate-reverse}
+@keyframes float1{to{transform:translate(28vw,34vh) scale(1.2)}}
+@keyframes float2{to{transform:translate(-30vw,30vh) scale(.85)}}
+@keyframes float3{to{transform:translate(24vw,-40vh) scale(1.15)}}
+
+/* neon tube type */
+.neon-pink{color:#fff;text-shadow:var(--glow-pink)}
+.hero h1{color:#fff;text-shadow:0 0 4px rgba(255,43,214,.9),0 0 18px rgba(255,43,214,.55)}
+.carta__head h2,.night__head h2{color:#fff;text-shadow:var(--glow-cyan)}
+.now h2{color:#fff;text-shadow:var(--glow-sun)}
+.flicker{animation:flicker 7s linear infinite}
+@keyframes flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1}20%,24%,55%{opacity:.45}}
+
+/* buttons lit */
+.btn{background:var(--neon);color:#fff;box-shadow:var(--glow-pink)}
+.btn--ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px var(--cyan),0 0 14px rgba(34,228,255,.5),inset 0 0 14px rgba(34,228,255,.35)}
+@media (hover:hover) and (pointer:fine){.btn:hover{color:#0a0a0a}}
+
+/* hero */
+.road{background:#120f19;box-shadow:inset 0 0 0 2px rgba(255,192,19,.35),0 0 24px rgba(255,192,19,.18)}
+.road__dashes span{background:var(--sun);box-shadow:0 0 8px rgba(255,192,19,.9)}
+.road__sign{box-shadow:var(--glow-sun)}
+.hero__logo{border-radius:50%;aspect-ratio:1;object-fit:cover;box-shadow:0 0 0 3px #fff,0 0 28px rgba(255,43,214,.55)}
+.hero__disc{box-shadow:0 0 0 3px var(--neon),0 0 36px rgba(255,43,214,.55)}
+.hero__badge{box-shadow:var(--glow-sun)}
+.hero__meta{color:var(--muted)}
+.nav__seal{box-shadow:0 0 0 2px #fff,0 0 14px rgba(255,43,214,.7)}
+
+/* statement */
+.thumb{box-shadow:0 0 0 2px var(--cyan),0 0 16px rgba(34,228,255,.6)}
+.statement p{color:#fff}
+
+/* live dial, each moment its own coloured light */
+.now{background:rgba(10,22,38,.72);color:var(--ink);--ink:#f4f1f8;--muted:#a9b7c9}
+.now[data-moment="cena"]{background:rgba(38,14,4,.72);--muted:#cdb6a6}
+.now[data-moment="cerrado"]{background:rgba(12,12,20,.8)}
+.now[data-moment="tarde"]{background:rgba(32,22,6,.72)}
+.now[data-moment="noche"]{background:rgba(24,3,26,.72);color:var(--ink);--ink:#f4f1f8;--muted:#c3aec6}
+.stage__disc{background:var(--cyan);box-shadow:var(--glow-cyan)}
+.now[data-moment="cena"] .stage__disc{background:var(--orange);box-shadow:0 0 6px rgba(255,122,26,.9),0 0 24px rgba(255,122,26,.45)}
+.now[data-moment="cerrado"] .stage__disc{background:#2a2633;box-shadow:inset 0 0 0 3px var(--cyan),0 0 18px rgba(34,228,255,.35)}
+.now[data-moment="tarde"] .stage__disc{background:var(--sun);box-shadow:var(--glow-sun)}
+.now[data-moment="noche"] .stage__disc{background:var(--neon);box-shadow:var(--glow-pink)}
+.now__list button[aria-pressed="true"]{text-shadow:0 0 18px rgba(255,255,255,.45)}
+.now__list button[aria-pressed="true"]::before{box-shadow:var(--glow-pink)}
+.dial input::-webkit-slider-runnable-track{background:#2a2633;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.dial input::-moz-range-track{background:#2a2633}
+.dial input::-webkit-slider-thumb{border-color:#07060b;box-shadow:var(--glow-sun)}
+.stage__orb{background:#07060b;box-shadow:0 0 0 2px var(--sun),0 0 18px rgba(255,192,19,.6)}
+
+/* marquee: a lit sign band */
+.marquee{background:var(--neon);color:#0a0a0a;box-shadow:0 0 30px rgba(255,43,214,.55)}
+.marquee__dot{background:#0a0a0a}
+.marquee__dot--n{background:#fff}
+
+/* menu */
+.tabs a{background:rgba(23,20,31,.85);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+@media (hover:hover) and (pointer:fine){.tabs a:hover{background:var(--sun);color:#0a0a0a;box-shadow:var(--glow-sun)}}
+.item__pic{box-shadow:0 0 0 2px rgba(255,43,214,.85),0 0 14px rgba(255,43,214,.5)}
+.cat:nth-child(even) .item__pic{box-shadow:0 0 0 2px rgba(34,228,255,.85),0 0 14px rgba(34,228,255,.5)}
+
+/* nights */
+.night,.visit,.foot{background:transparent}
+
+/* coupon glows like a lit sign */
+.coupon-glow{filter:drop-shadow(0 0 22px rgba(255,192,19,.45))}
+.coupon__left{border-color:#07060b}
+.coupon__map{display:block;width:min(280px,72%);background:#0b0912;box-shadow:none;text-decoration:none}
+.coupon__map img{object-position:16% 30%;transform:scale(1.05);transform-origin:20% 25%;transition:transform 700ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.coupon__map:hover img{transform:scale(1.2)}}
+.map-street{fill:none;stroke:rgba(255,255,255,.28);stroke-width:2;stroke-linecap:round}
+.map-road{fill:none;stroke:var(--neon);stroke-width:7;stroke-linecap:round;filter:drop-shadow(0 0 4px #ff2bd6) drop-shadow(0 0 10px rgba(255,43,214,.7))}
+.map-water{fill:rgba(34,228,255,.18);stroke:var(--cyan);stroke-width:2;filter:drop-shadow(0 0 6px rgba(34,228,255,.8))}
+.map-park{fill:rgba(120,255,160,.12);stroke:rgba(120,255,160,.6);stroke-width:1.5}
+.map-label{font:700 11px "Albert Sans",sans-serif;fill:#fff;letter-spacing:.02em}
+.map-label--road{fill:#ffb3f0}
+.map-label--water{fill:#a8f4ff}
+.map-pin circle.core{fill:var(--sun);filter:drop-shadow(0 0 6px #ffc013) drop-shadow(0 0 14px rgba(255,192,19,.8))}
+.map-pin circle.pulse{fill:none;stroke:var(--sun);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pulse 2s var(--ease-out) infinite}
+.map-pin circle.pulse:nth-of-type(2){animation-delay:1s}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(4.5);opacity:0}}
+.map-tag rect{fill:#07060b;stroke:var(--sun);stroke-width:1.5}
+.map-tag text{font:800 12px "Albert Sans",sans-serif;fill:var(--sun)}
+.map-open{font-size:var(--step-small);font-weight:700;color:#0a0a0a;text-decoration:underline;text-underline-offset:.25em}
+
+/* footer letters as lit tubes */
+.mark span:nth-child(1),.mark span:nth-child(4){background:#07060b;color:#fff;box-shadow:inset 0 0 0 3px #fff,0 0 24px rgba(255,255,255,.35)}
+.mark span:nth-child(1){text-shadow:0 0 12px rgba(255,255,255,.8)}
+.mark span:nth-child(4){text-shadow:0 0 12px rgba(255,255,255,.8)}
+.mark span:nth-child(2),.mark span:nth-child(6){box-shadow:var(--glow-sun)}
+.mark span:nth-child(3){box-shadow:var(--glow-pink)}
+.mark span:nth-child(5){background:#07060b;color:var(--cyan);box-shadow:inset 0 0 0 3px var(--cyan),var(--glow-cyan);text-shadow:var(--glow-cyan)}
+.foot__last .btn{background:#fff;color:#0a0a0a;box-shadow:0 0 18px rgba(255,255,255,.4)}
+
+/* =========================================================
+   PHONE LAYER — touch, safe areas, thumb sizes, lighter effects
+   ========================================================= */
+html{-webkit-tap-highlight-color:transparent}
+.btn,.tabs a,.nav a,.now__list button,.coupon__map,.foot a{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.dial input{touch-action:pan-y}
+.nav{padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px));transition:color 250ms ease,background-color 250ms ease}
+.nav.is-scrolled{background:rgba(7,6,11,.88)}
+.nav__brand,.nav__links a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;justify-content:center}
+.foot__cols nav a{display:inline-flex;align-items:center;min-height:44px}
+.foot{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+.now__list button{min-height:44px;padding:2px 0}
+.now__list button:active{transform:scale(.98)}
+.coupon__map:active img{transform:scale(1.12)}
+@media (max-width:760px){
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * var(--m));padding:10px var(--m);background:rgba(7,6,11,.92);scroll-snap-type:x proximity;overscroll-behavior-x:contain;top:66px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs a{flex:none;scroll-snap-align:start}
+  .lights i:nth-child(3),.lights i:nth-child(4){display:none}
+  .lights i{opacity:.34}
+  .carta,.night,.visit{padding-top:96px}
+  .statement{padding-block:96px}
+  .cat{padding-top:48px}
+  .cat__title{margin-bottom:24px}
+  .items{gap:24px}
+  .marquee{padding:12px 0}
+  .marquee__item{font-size:1.75rem}
+  .coupon__map{width:min(220px,64%)}
+}
+
+/* ---------- reveal base: visible by default, JS adds motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .hero__disc img{transition:opacity .3s ease!important}
+}
+</style>
+</head>
+<body>
+<div class="lights" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="98" fill="#fff"/>
+      <circle cx="100" cy="100" r="88" fill="none" stroke="#0a0a0a" stroke-width="3"/>
+      <text x="22" y="104" textLength="124" lengthAdjust="spacingAndGlyphs" font-family="Albert Sans,sans-serif" font-weight="800" font-size="40" fill="#0a0a0a">TEXAK</text>
+      <circle cx="163" cy="90" r="14.5" fill="none" stroke="#0a0a0a" stroke-width="6"/>
+      <path d="M156 84 H170 L163 92 Z M163 92 V99 M159 99 H167" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+      <text x="100" y="124" text-anchor="middle" font-family="Yellowtail,cursive" font-size="15" fill="#0a0a0a">Pedro Muñoz</text>
+      <text x="100" y="158" text-anchor="middle" font-family="Yellowtail,cursive" font-size="20" fill="#0a0a0a">Gastro Bar</text>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="nav" aria-label="Principal">
+  <a class="nav__brand" href="#top"><svg class="nav__seal" aria-hidden="true"><use href="#seal"/></svg>Texako</a>
+  <nav class="nav__links">
+    <a href="#ahora">Horario</a>
+    <a href="#carta">Carta</a>
+    <a href="#noches">Noches</a>
+    <a href="#sommar">Sommar</a>
+    <a href="#ven">Cómo llegar</a>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="t-hero">
+    <div class="hero__card">
+      <div class="road" aria-hidden="true">
+        <div class="road__dashes"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="road__sign">N-420 · Pedro Muñoz</div>
+      </div>
+      <img class="hero__logo" src="assets/ig/logo-400.webp" alt="Logo de Texako Gastro Bar, Pedro Muñoz" width="400" height="400" fetchpriority="high">
+      <h1 id="t-hero" class="flicker" data-split>Del tardeo a la última copa</h1>
+      <p class="hero__lead">Texako es el gastro bar de la Avenida de la Constitución: cañas, vinos y algo para picar desde las cuatro, y los viernes y sábados, combinados y DJ hasta las 4.</p>
+      <div class="hero__actions">
+        <a class="btn" href="#ahora">¿Está abierto? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=Texako%2C%20Av.%20de%20la%20Constituci%C3%B3n%2025%2C%20Pedro%20Mu%C3%B1oz" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+      <div class="hero__meta"><span><strong>Av. de la Constitución, 25</strong> · 13620 Pedro Muñoz</span><span><strong>Vie y sáb</strong> 16:00–4:00 · <strong>Dom</strong> 16:00–21:30</span></div>
+    </div>
+
+    <div class="hero__disc" aria-hidden="true" data-parallax>
+      <img class="kb is-on" src="assets/ig/barra-l.webp" srcset="assets/ig/barra-m.webp 900w, assets/ig/barra-l.webp 1440w" sizes="(max-width: 860px) 86vw, 62vw" alt="" width="1440" height="1440">
+      <img class="kb" src="assets/ig/concierto-m.webp" alt="" width="592" height="592">
+      <img class="kb" src="assets/ig/fachada-l.webp" srcset="assets/ig/fachada-m.webp 900w, assets/ig/fachada-l.webp 1440w" sizes="(max-width: 860px) 86vw, 62vw" alt="" width="1440" height="962" style="object-position:22% 30%">
+    </div>
+
+    <div class="hero__badge" aria-hidden="true">
+      <svg viewBox="0 0 100 100"><defs><path id="bp" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0"/></defs><text font-size="11" font-weight="700" letter-spacing=".7"><textPath href="#bp">COMBINADOS · CERVEZAS · VINOS ·</textPath></text></svg>
+      <span><b>5,0</b>en Google</span>
+    </div>
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="statement" aria-label="La tarde y la noche en el Texako">
+    <p data-words>De tarde <span class="thumb"><img src="assets/ig/vinos-t.webp" alt="Botellero de vinos"></span> cañas y vinos, a la hora de cenar <span class="thumb"><img src="assets/ig/tapas-t.webp" alt="Tapas del Texako"></span> algo para picar, y el finde <span class="thumb"><img src="assets/ig/concierto-t.webp" alt="Noche de música"></span> combinados y DJ hasta las cuatro.</p>
+  </section>
+
+  <!-- LIVE: ¿ESTÁ ABIERTO? -->
+  <section class="now" id="ahora" data-moment="tarde" aria-labelledby="t-now">
+    <div class="now__text">
+      <h2 id="t-now">¿Está abierto?</h2>
+      <p class="now__status" aria-live="polite"><i></i><span></span></p>
+      <div class="days" role="group" aria-label="Día">
+        <button type="button" data-d="lj" aria-pressed="false">Lun–Jue</button>
+        <button type="button" data-d="5" aria-pressed="false">Viernes</button>
+        <button type="button" data-d="6" aria-pressed="false">Sábado</button>
+        <button type="button" data-d="0" aria-pressed="false">Domingo</button>
+      </div>
+      <ul class="now__list" role="list">
+        <li><button type="button" data-m="tarde" aria-pressed="true">Tardeo</button></li>
+        <li><button type="button" data-m="cena" aria-pressed="false">Para picar</button></li>
+        <li><button type="button" data-m="noche" aria-pressed="false">Copas y DJ <small>vie y sáb</small></button></li>
+      </ul>
+      <p class="now__fact"></p>
+      <div class="dial">
+        <label for="hora">Mueve la hora <output id="hora-out" for="hora">16:00</output></label>
+        <input id="hora" type="range" min="14" max="28" step="0.25" value="16">
+      </div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <svg class="stage__ring" viewBox="0 0 300 300"><defs><path id="rp" d="M150 150 m-140 0 a140 140 0 1 1 280 0 a140 140 0 1 1 -280 0"/></defs><text><textPath href="#rp">TARDEO · PARA PICAR · COPAS Y DJ · VIERNES Y SÁBADO HASTA LAS 4 · TARDEO · PARA PICAR · COPAS Y DJ ·</textPath></text></svg>
+      <div class="stage__disc"></div>
+      <div class="stage__photo">
+        <img data-m="tarde" class="is-on" src="assets/ig/vinos-m.webp" alt="">
+        <img data-m="cena" src="assets/ig/tapas-m.webp" alt="">
+        <img data-m="noche" src="assets/ig/concierto-m.webp" alt="">
+        <img data-m="cerrado" src="assets/ig/fachada-m.webp" alt="" style="object-position:18% 30%">
+      </div>
+      <div class="stage__orbit"><div class="stage__orb">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffc013" stroke-width="2.2" stroke-linecap="round"><circle class="sun" cx="12" cy="12" r="4.5"/><path class="sun" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/><path class="moon" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="#ffc013" opacity="0"/></svg>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__item">Combinados <i class="marquee__dot"></i> Cervezas <i class="marquee__dot marquee__dot--n"></i> Vinos <i class="marquee__dot"></i> Tardeo <i class="marquee__dot marquee__dot--n"></i> Buena música <i class="marquee__dot"></i> Sábado de Mayos <i class="marquee__dot marquee__dot--n"></i></div>
+      <div class="marquee__item">Combinados <i class="marquee__dot"></i> Cervezas <i class="marquee__dot marquee__dot--n"></i> Vinos <i class="marquee__dot"></i> Tardeo <i class="marquee__dot marquee__dot--n"></i> Buena música <i class="marquee__dot"></i> Sábado de Mayos <i class="marquee__dot marquee__dot--n"></i></div>
+    </div>
+  </div>
+
+  <!-- CARTA -->
+  <section class="carta" id="carta" aria-labelledby="t-carta">
+    <div class="carta__head">
+      <h2 id="t-carta" data-split>La carta</h2>
+      <p>De lo que se pide en la barra del Texako, de la primera caña de las cuatro al gin-tonic de las doce.</p>
+    </div>
+    <nav class="tabs" aria-label="Secciones de la carta">
+      <a href="#c-picar">Para picar</a><a href="#c-cervezas">Cervezas y vinos</a><a href="#c-copas">Combinados</a>
+    </nav>
+
+
+    <div class="cat" id="c-picar">
+      <div class="cat__title"><h3>Para picar</h3><span>4 raciones</span></div>
+      <ul class="items" role="list">
+        <li class="item"><div class="item__pic"><img src="assets/ig/tapas-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Tabla de queso manchego</span><span>9,00 €</span></div><p>Curado, en cuñas, con picos y aceite de oliva.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/plato-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Patatas bravas Texako</span><span>6,50 €</span></div><p>Salsa brava de la casa y alioli.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/plato-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Montaditos variados</span><span>2,20 €</span></div><p>Lomo, pisto manchego o morcilla, a elegir.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/tapas-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Nachos para compartir</span><span>8,00 €</span></div><p>Con queso fundido, guacamole y jalapeños.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="cat" id="c-cervezas">
+      <div class="cat__title"><h3>Cervezas y vinos</h3><span>4 a elegir</span></div>
+      <ul class="items" role="list">
+        <li class="item"><div class="item__pic"><img src="assets/ig/cubo-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Caña bien tirada</span><span>1,60 €</span></div><p>Siempre con su tapa.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/barra-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Tercio de importación</span><span>3,00 €</span></div><p>Pregunta en barra por las de esta semana.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/vinos-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Copa de tinto D.O. La Mancha</span><span>2,50 €</span></div><p>Tempranillo de bodegas de la comarca.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/copas-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Verdejo o blanco airén</span><span>2,50 €</span></div><p>Frío, para el tardeo de verano.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="cat" id="c-copas">
+      <div class="cat__title"><h3>Combinados</h3><span>4 de la casa</span></div>
+      <ul class="items" role="list">
+        <li class="item"><div class="item__pic"><img src="assets/ig/copas-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Gin-tonic Texako</span><span>7,00 €</span></div><p>Ginebra premium, tónica, cítricos y enebro.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/barra-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Ron con cola</span><span>6,00 €</span></div><p>El clásico de toda la vida, con mucho hielo.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/cubo-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Mojito</span><span>6,50 €</span></div><p>Hierbabuena fresca, lima y azúcar moreno.</p></div></li>
+        <li class="item"><div class="item__pic"><img src="assets/ig/fachada-t.webp" alt="" loading="lazy" decoding="async" width="72" height="72"></div><div><div class="item__row"><span>Chupito de la casa</span><span>2,00 €</span></div><p>Para cerrar la noche.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- NOCHES -->
+  <section class="night" id="noches" aria-labelledby="t-night">
+    <div class="night__head">
+      <h2 id="t-night" data-split>Las noches del Texako</h2>
+      <p>Viernes y sábados, hasta las 4:00. La gastronomía y la buena música se juntan cuando cae el sol: DJ, directos y noches temáticas.</p>
+    </div>
+    <div class="lineup">
+      <figure class="lineup__pics">
+        <img class="lineup__big" src="assets/ig/concierto-m.webp" alt="Noche de DJ en el Texako, con luces rosas y el público de espaldas" width="592" height="592" loading="lazy" decoding="async">
+        <img class="lineup__small" src="assets/ig/barra-m.webp" alt="La barra del Texako con su botellero" width="900" height="600" loading="lazy" decoding="async">
+      </figure>
+      <div class="lineup__body">
+        <p class="lineup__intro">Han pasado por aquí</p>
+        <ul class="lineup__list" role="list">
+          <li class="sign" data-c="pink"><span class="sign__name">DJ Miguel Ortiz</span><span class="sign__kind">DJ</span></li>
+          <li class="sign" data-c="cyan"><span class="sign__name">Adri Lozano</span><span class="sign__kind">DJ</span></li>
+          <li class="sign" data-c="sun"><span class="sign__name">DJ Toledo</span><span class="sign__kind">DJ</span></li>
+          <li class="sign" data-c="pink"><span class="sign__name">Los Monigotes</span><span class="sign__kind">En directo</span></li>
+          <li class="sign" data-c="cyan"><span class="sign__name">Los Maestronic</span><span class="sign__kind">En directo</span></li>
+          <li class="sign" data-c="sun"><span class="sign__name">DeMarco Flamenco</span><span class="sign__kind">Flamenco</span></li>
+          <li class="sign" data-c="pink"><span class="sign__name">Sábado de Mayos</span><span class="sign__kind">Fiesta</span></li>
+        </ul>
+        <p class="lineup__more">Y en la barra: Oktoberfest, el fin de semana del pulpo, catas maridaje y la Navidad del Texako, del 5 de diciembre al 3 de enero.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOMMAR -->
+  <section class="sommar" id="sommar" aria-labelledby="t-sommar">
+    <div class="sommar__head">
+      <h2 id="t-sommar"><span class="sommar__word">Sommar</span><span class="sr"> Pedro Muñoz</span></h2>
+      <p class="sommar__by">by Texako · la discoteca de verano de Pedro Muñoz</p>
+    </div>
+    <div class="sommar__grid">
+      <div class="sommar__copy">
+        <p class="sommar__lead">Un espacio lleno de noches de verano. Cuando aprieta el calor, el Texako se muda a la pista: viernes, sábados y festivos.</p>
+        <a class="btn btn--sun" href="https://www.instagram.com/sommar.pm/" target="_blank" rel="noopener">Seguir a @sommar.pm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <ul class="tickets" role="list" aria-label="Verano 2026 en Sommar">
+        <li class="ticket ticket--sun">
+          <time class="ticket__date" datetime="2026-07-25"><b>25</b>jul</time>
+          <div class="ticket__body"><strong>Pregón Sommar 2026</strong><span>Basty Beam · arranca la feria a las 00:00</span></div>
+        </li>
+        <li class="ticket ticket--cyan">
+          <time class="ticket__date" datetime="2026-08-01"><b>1</b>ago</time>
+          <div class="ticket__body"><strong>Enigma</strong><span>La primera gran noche de feria</span></div>
+          <img class="ticket__pic" src="assets/ig/sommar-enigma-m.webp" alt="Logo de Enigma en neón azul" width="900" height="900" loading="lazy" decoding="async">
+        </li>
+        <li class="ticket ticket--next">
+          <span class="ticket__date"><b>27</b>verano</span>
+          <div class="ticket__body"><strong>Vuelve el próximo verano</strong><span>Las fechas, primero en @sommar.pm</span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- VEN -->
+  <section class="visit" id="ven" aria-labelledby="t-visit">
+    <div class="coupon-glow"><div class="coupon">
+      <div class="coupon__left">
+        <h2 id="t-visit">Guárdanos sitio</h2>
+        <address>Av. de la Constitución, 25<br>13620 Pedro Muñoz, Ciudad Real<br>Viernes y sábado 16:00–4:00<br>Domingo 16:00–21:30</address>
+        <a class="coupon__map" href="https://www.google.com/maps/search/?api=1&query=Texako%2C%20Av.%20de%20la%20Constituci%C3%B3n%2025%2C%20Pedro%20Mu%C3%B1oz" target="_blank" rel="noopener" aria-label="Abrir en Google Maps"><img src="assets/ig/fachada-m.webp" decoding="async" alt="Fachada del Texako de noche, con el letrero iluminado" loading="lazy"></a>
+      </div>
+      <form id="reserva" novalidate>
+        <p>Rellena esto y te abrimos Instagram con el mensaje ya copiado para mandarlo.</p>
+        <label class="field"><span class="sr">Nombre</span><input name="nombre" placeholder="Tu nombre" autocomplete="name" autocapitalize="words" enterkeyhint="next" required></label>
+        <div class="row2">
+          <label class="field"><span class="sr">Día</span><input name="dia" placeholder="Qué día (vie, sáb o dom)" autocomplete="off" enterkeyhint="next" required></label>
+          <label class="field"><span class="sr">Personas</span><select name="personas"><option>2 personas</option><option>4 personas</option><option>6 personas</option><option>Más de 8</option></select></label>
+        </div>
+        <label class="field"><span class="sr">Qué queréis</span><select name="plan"><option>Mesa para el tardeo</option><option>Mesa para picar algo</option><option>Celebración o cumpleaños</option><option>Reservado para la noche (vie o sáb)</option></select></label>
+        <label class="field"><span class="sr">Mensaje</span><textarea name="msg" placeholder="Algo más que debamos saber" enterkeyhint="send"></textarea></label>
+        <button class="btn" type="submit">Mandar por Instagram <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="form-note" role="status"></p>
+      </form>
+    </div></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="mark" aria-label="Texako"><span>T</span><span>E</span><span>X</span><span>A</span><span>K</span><span>O</span></div>
+  <div class="foot__cols">
+    <nav aria-label="Pie"><a href="#ahora">Horario</a><a href="#carta">Carta</a><a href="#noches">Noches</a><a href="#sommar">Sommar</a><a href="https://www.instagram.com/texako.pm/" target="_blank" rel="noopener">Instagram @texako.pm</a></nav>
+    <address>Texako Gastro Bar · Av. de la Constitución, 25 · 13620 Pedro Muñoz<br>Vie y sáb 16:00–4:00 · Dom 16:00–21:30 · Lun a jue cerrado</address>
+  </div>
+  <div class="foot__last"><span>© 2026 Texako Gastro Bar · Prototipo web por Bramia</span><a class="btn" href="#top">Volver arriba</a></div>
+  <p class="credits">Fotografías del Instagram de Texako (<a href="https://www.instagram.com/texako.pm/">@texako.pm</a>) y Sommar (<a href="https://www.instagram.com/sommar.pm/">@sommar.pm</a>), usadas en este prototipo para presentar la propuesta.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---- hero crossfade (signature) ---- */
+  const slides = [...document.querySelectorAll('.hero__disc img')];
+  let si = 0, timer;
+  const next = () => { slides[si].classList.remove('is-on'); si = (si + 1) % slides.length; slides[si].classList.add('is-on'); };
+  const start = () => { if (!reduce) timer = setInterval(next, 5600); };
+  start();
+  document.addEventListener('visibilitychange', () => { clearInterval(timer); if (!document.hidden) start(); });
+
+  /* ---- open-now dial: real hours (Fri/Sat 16:00–4:00, Sun 16:00–21:30, Mon–Thu closed) ---- */
+  const now = document.querySelector('.now');
+  const btns = [...now.querySelectorAll('.now__list button')];
+  const dayBtns = [...now.querySelectorAll('.days button')];
+  const pics = [...now.querySelectorAll('.stage__photo img')];
+  const fact = now.querySelector('.now__fact');
+  const status = now.querySelector('.now__status'), statusText = status.querySelector('span');
+  const range = document.getElementById('hora'), out = document.getElementById('hora-out');
+  const orbit = now.querySelector('.stage__orbit');
+  const sun = now.querySelectorAll('.sun'), moon = now.querySelector('.moon');
+  const DAY = { 0: 'domingo', 1: 'lunes', 2: 'martes', 3: 'miércoles', 4: 'jueves', 5: 'viernes', 6: 'sábado' };
+  const facts = {
+    tarde: '<strong>Desde las 16:00.</strong> Cañas bien tiradas, vinos de La Mancha y la cuadrilla que va llegando.',
+    cena: '<strong>A la hora de cenar.</strong> Tablas, bravas y algo para picar antes de que empiece la noche.',
+    noche: '<strong>Viernes y sábado, hasta las 4:00.</strong> Combinados, DJ y noches temáticas.',
+    cerrado: 'De lunes a jueves descansamos. Te esperamos el viernes desde las 16:00.'
+  };
+  // a "night" belongs to the day it started on: Sat 02:00 is h = 26 on Friday
+  const closeOf = d => d === 5 || d === 6 ? 28 : d === 0 ? 21.5 : 0;
+  const isOpen = (d, h) => closeOf(d) > 0 && h >= 16 && h < closeOf(d);
+  const momentOf = (d, h) => !isOpen(d, h) ? 'cerrado' : h < 20.5 ? 'tarde' : (h < 23 || d === 0) ? 'cena' : 'noche';
+  const fmt = h => { const hh = Math.floor(h) % 24, mm = Math.round((h % 1) * 60); return String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0'); };
+  const nextOpen = (d, h) => {
+    if ((d === 5 || d === 6 || d === 0) && h < 16) return `el ${DAY[d]} a las 16:00`;
+    for (let i = 1; i <= 7; i++) { const nd = (d + i) % 7; if (closeOf(nd)) return `el ${DAY[nd]} a las 16:00`; }
+  };
+  const live = (() => { const parts = new Intl.DateTimeFormat('en-GB', { weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23', timeZone: 'Europe/Madrid' }).formatToParts(new Date());
+    const wd = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[parts.find(p => p.type === 'weekday').value];
+    let h = +parts.find(p => p.type === 'hour').value + (+parts.find(p => p.type === 'minute').value) / 60, d = wd;
+    if (h < 4) { h += 24; d = (wd + 6) % 7; } return { d, h }; })();
+  let day = live.d, hour = live.h, isLive = true, current = '';
+  function render(fromRange) {
+    const h = Math.min(28, Math.max(14, hour));
+    if (!fromRange) range.value = h;
+    out.textContent = fmt(h);
+    dayBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.d === 'lj' ? (day >= 1 && day <= 4) : +b.dataset.d === day));
+    const deg = ((h - 14) / 14) * 360;
+    if (reduce || !window.gsap) orbit.style.transform = `rotate(${deg}deg)`;
+    else gsap.to(orbit, { rotation: deg, duration: fromRange ? 0.25 : 0.9, ease: 'power3.out', overwrite: true });
+    const dark = h >= 20.5; sun.forEach(x => x.style.opacity = dark ? 0 : 1); moon.style.opacity = dark ? 1 : 0;
+    const open = isOpen(day, hour);
+    status.classList.toggle('is-open', open);
+    const at = (Math.floor(h) % 24 === 1 ? 'a la ' : 'a las ') + fmt(h);
+    const when = isLive ? 'Ahora mismo' : h >= 24 ? `La noche del ${DAY[day]}, ${at}` : `El ${DAY[day]} ${at}`;
+    statusText.textContent = open ? `${when}: abierto · cierra a las ${day === 0 ? '21:30' : '4:00'}` : `${when}: cerrado · abrimos ${nextOpen(day, hour)}`;
+    btns.forEach(b => { if (b.dataset.m === 'noche') b.disabled = day === 0 || (day >= 1 && day <= 4); });
+    const m = momentOf(day, hour);
+    btns.forEach(b => b.setAttribute('aria-pressed', b.dataset.m === m));
+    if (m === current) return;
+    current = m; now.dataset.moment = m; requestAnimationFrame(() => window.dispatchEvent(new Event('scroll')));
+    pics.forEach(p => p.classList.toggle('is-on', p.dataset.m === m));
+    fact.innerHTML = facts[m];
+    if (!reduce && window.gsap) gsap.fromTo(fact, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .5, ease: 'expo.out' });
+  }
+  dayBtns.forEach(b => b.addEventListener('click', () => { isLive = false; day = b.dataset.d === 'lj' ? 4 : +b.dataset.d; render(); }));
+  btns.forEach(b => b.addEventListener('click', () => { isLive = false; if (!isOpen(day, 16)) day = 5; hour = { tarde: 18, cena: 21, noche: 24 }[b.dataset.m]; render(); }));
+  range.addEventListener('input', () => { isLive = false; hour = parseFloat(range.value); render(true); });
+  render();
+
+  /* ---- nav ink follows the ground under it ---- */
+  const nav = document.querySelector('.nav');
+  const lum = c => { const m = c.match(/\d+(\.\d+)?/g); if (!m) return null; if (m[3] !== undefined && +m[3] === 0) return null; return (0.2126*m[0] + 0.7152*m[1] + 0.0722*m[2]) / 255; };
+  let navQueued = false;
+  const navInk = () => { navQueued = false; const scrolled = scrollY > 40; nav.classList.toggle('is-scrolled', scrolled); if (scrolled) { nav.classList.add('is-dark'); return; } nav.style.visibility = 'hidden'; let el = document.elementFromPoint(innerWidth / 2, 34); nav.style.visibility = '';
+    while (el && el !== document.documentElement) { const l = lum(getComputedStyle(el).backgroundColor); if (l !== null) { nav.classList.toggle('is-dark', l < 0.45); return; } el = el.parentElement; }
+    nav.classList.remove('is-dark'); };
+  addEventListener('scroll', () => { if (!navQueued) { navQueued = true; requestAnimationFrame(navInk); } }, { passive: true });
+  navInk();
+
+  /* ---- reservation: compose message, copy, open Instagram DM ---- */
+  const form = document.getElementById('reserva'), note = form.querySelector('.form-note');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(form));
+    if (!d.nombre.trim() || !d.dia.trim()) { note.textContent = 'Falta tu nombre o el día: con eso ya os guardamos sitio.'; form.querySelector(!d.nombre.trim() ? '[name=nombre]' : '[name=dia]').focus(); return; }
+    const txt = `Hola Texako, soy ${d.nombre}. Queremos ${d.plan.toLowerCase()} el ${d.dia}, ${d.personas}.${d.msg ? ' ' + d.msg : ''}`;
+    try { await navigator.clipboard.writeText(txt); note.textContent = 'Mensaje copiado. Pégalo en el chat de Instagram que se acaba de abrir.'; }
+    catch { note.textContent = 'Copia este mensaje y mándalo por Instagram: ' + txt; }
+    window.open('https://ig.me/m/texako.pm', '_blank', 'noopener');
+  });
+
+  /* ---- button ripple origin ---- */
+  document.querySelectorAll('.btn').forEach(b => b.addEventListener('pointerenter', e => {
+    const r = b.getBoundingClientRect();
+    b.style.setProperty('--x', (e.clientX - r.left) + 'px'); b.style.setProperty('--y', (e.clientY - r.top) + 'px');
+  }));
+
+
+  if (reduce || !window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
+  /* ---- split headings into words ---- */
+  // words are clipped only while they rise in; then the clip goes so the neon glow is whole
+  const unclip = h => h.querySelectorAll('.w').forEach(w => w.style.overflow = 'visible');
+  document.querySelectorAll('[data-split]').forEach(el => {
+    el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="w" style="display:inline-block;overflow:clip;vertical-align:top;padding-bottom:.08em"><span style="display:inline-block">${w}</span></span>`).join(' ');
+  });
+
+  /* ---- load sequence ---- */
+  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.from('.hero__disc', { scale: .6, rotation: -25, autoAlpha: 0, duration: 1.6 })
+    .from('.road', { scaleX: 0, transformOrigin: 'left', duration: 1 }, 0.1)
+    .from('.hero__logo', { rotation: -180, scale: .7, autoAlpha: 0, duration: 1.2 }, 0.2)
+    .from('.hero h1 .w > span', { yPercent: 110, duration: 1, stagger: .07, onComplete: () => unclip(document.querySelector('.hero h1')) }, 0.35)
+    .from('.hero__lead', { y: 24, autoAlpha: 0, duration: .9 }, 0.7)
+    .from('.hero__actions .btn', { y: 20, autoAlpha: 0, duration: .8, stagger: .08 }, 0.8)
+    .from('.hero__meta span', { y: 16, autoAlpha: 0, duration: .8, stagger: .08 }, 0.9)
+    .from('.hero__badge', { scale: .5, rotation: -90, autoAlpha: 0, duration: 1.1, ease: 'back.out(1.6)' }, 1)
+    .from('.nav', { y: -30, autoAlpha: 0, duration: .8 }, 0.5);
+
+  /* ---- hero parallax ---- */
+  gsap.to('.hero__disc', { yPercent: 14, rotation: 12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero__card', { y: -60, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.nav__seal', { rotation: 360, ease: 'none', scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: .5 } });
+
+  /* ---- statement: words light up as you read ---- */
+  const st = document.querySelector('[data-words]');
+  const parts = [];
+  st.childNodes.forEach(n => {
+    if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(t => { if (t.trim()) { const s = document.createElement('span'); s.textContent = t; s.style.display = 'inline-block'; parts.push(s); } else parts.push(document.createTextNode(t)); });
+    else parts.push(n);
+  });
+  st.replaceChildren(...parts);
+  const words = st.querySelectorAll(':scope > span:not(.thumb)');
+  gsap.fromTo(words, { opacity: .18 }, { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true } });
+  gsap.from('.thumb', { scale: 0.4, rotation: -120, autoAlpha: 0, stagger: .15, duration: 1, ease: 'back.out(1.8)', scrollTrigger: { trigger: st, start: 'top 75%' } });
+
+  /* ---- section entrances ---- */
+  const enter = (sel, trigger, vars = {}) => gsap.from(sel, Object.assign({ y: 28, autoAlpha: 0, duration: .9, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger, start: 'top 82%' } }, vars));
+  document.querySelectorAll('[data-split]').forEach(h => { if (!h.closest('.hero')) gsap.from(h.querySelectorAll('.w > span'), { yPercent: 110, duration: 1, stagger: .07, ease: 'expo.out', onComplete: () => unclip(h), scrollTrigger: { trigger: h, start: 'top 85%' } }); });
+  enter('.now h2, .now__status, .days button, .now__list li, .now__fact, .dial', '.now');
+  gsap.from('.stage__disc', { scale: .7, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.stage', start: 'top 80%' } });
+  gsap.from('.stage__photo', { scale: .5, rotation: -40, autoAlpha: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.stage', start: 'top 80%' } });
+  enter('.carta__head p, .tabs a', '.carta');
+  document.querySelectorAll('.cat').forEach(c => {
+    enter(c.querySelectorAll('.cat__title > *'), c);
+    gsap.from(c.querySelectorAll('.item__pic'), { scale: .3, rotation: -90, autoAlpha: 0, duration: 1, stagger: .08, ease: 'back.out(1.7)', scrollTrigger: { trigger: c, start: 'top 75%' } });
+    gsap.from(c.querySelectorAll('.item > div:last-child'), { x: -24, autoAlpha: 0, duration: .9, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 75%' } });
+  });
+  enter('.night__head p', '.night');
+  const lineup = document.querySelector('.lineup');
+  lineup.classList.add('js');
+  lineup.querySelectorAll('.sign').forEach(sg => ScrollTrigger.create({ trigger: sg, start: 'top 72%', onEnter: () => sg.classList.add('is-on'), onLeaveBack: () => sg.classList.remove('is-on') }));
+  gsap.from('.lineup__big', { scale: .7, rotation: -30, autoAlpha: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.lineup', start: 'top 80%' } });
+  gsap.from('.lineup__small', { scale: .4, rotation: 60, autoAlpha: 0, duration: 1.2, delay: .25, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.lineup', start: 'top 80%' } });
+  gsap.to('.lineup__big', { rotation: 18, ease: 'none', scrollTrigger: { trigger: '.lineup', start: 'top bottom', end: 'bottom top', scrub: true } });
+  enter('.lineup__intro, .lineup__more', '.lineup__body');
+  // Sommar: the sign switches on letter by letter, then the pictures roll in
+  const sw = document.querySelector('.sommar__word');
+  sw.innerHTML = [...sw.textContent].map(c => `<span style="display:inline-block">${c}</span>`).join('');
+  gsap.from(sw.children, { opacity: .12, duration: .08, stagger: { each: .09, from: 'random' }, repeat: 1, yoyo: false, ease: 'steps(1)', scrollTrigger: { trigger: '.sommar', start: 'top 75%' } });
+  enter('.sommar__by, .sommar__lead, .sommar .btn', '.sommar__grid');
+  gsap.from('.ticket', { x: 80, rotation: 3, autoAlpha: 0, duration: 1.1, stagger: .12, ease: 'expo.out', scrollTrigger: { trigger: '.tickets', start: 'top 82%' } });
+  gsap.from('.coupon', { y: 80, rotation: -3, autoAlpha: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.coupon', start: 'top 85%' } });
+  enter('.coupon__left > *, .coupon form > *', '.coupon', { stagger: .06 });
+  gsap.from('.coupon__map', { rotation: 180, scale: .6, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.coupon__map', start: 'top 90%' } });
+  gsap.from('.mark span', { scaleY: 0.15, duration: 1.1, stagger: .08, ease: 'expo.out', scrollTrigger: { trigger: '.mark', start: 'top 90%' } });
+
+  /* ---- stage rotates gently with scroll ---- */
+  gsap.to('.stage__disc', { rotation: 90, ease: 'none', scrollTrigger: { trigger: '.now', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+  /* ---- marquee: constant, speeds up with scroll velocity ---- */
+  const track = document.querySelector('.marquee__track');
+  const loop = gsap.to(track, { xPercent: -50, duration: 22, ease: 'none', repeat: -1 });
+  ScrollTrigger.create({ onUpdate: s => { const v = gsap.utils.clamp(-6, 6, s.getVelocity() / 300); gsap.to(loop, { timeScale: v < 0 ? -1 + v : 1 + v, duration: .2, overwrite: true }); gsap.to(loop, { timeScale: v < 0 ? -1 : 1, duration: 1.2, delay: .25 }); } });
+
+  /* ---- theme colour for the browser bar follows day → night ---- */
+  const meta = document.querySelector('meta[name=theme-color]');
+  ScrollTrigger.create({ trigger: '#noches', start: 'top 60%', onEnter: () => meta.content = '#0a0a0a', onLeaveBack: () => meta.content = '#07060b' });
+
+  /* ---- magnetic buttons (fine pointers only) ---- */
+  if (fine) document.querySelectorAll('.btn, .stage').forEach(el => {
+    const strength = el.classList.contains('stage') ? 14 : 8;
+    const xTo = gsap.quickTo(el, 'x', { duration: .5, ease: 'power3.out' }), yTo = gsap.quickTo(el, 'y', { duration: .5, ease: 'power3.out' });
+    el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); xTo(((e.clientX - r.left) / r.width - .5) * strength * 2); yTo(((e.clientY - r.top) / r.height - .5) * strength * 2); });
+    el.addEventListener('pointerleave', () => { xTo(0); yTo(0); });
+  });
+})();
+</script>
+</body>
+</html>
